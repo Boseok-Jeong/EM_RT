@@ -78,27 +78,6 @@ public:
 	vec3 offset;
 };
 
-bool translate::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
-	ray moved_r(r.origin() - offset, r.direction(), r.time());
-	if (!ptr->hit(moved_r, t_min, t_max, rec))
-		return false;
-
-	rec.p += offset;
-	rec.set_face_normal(moved_r, rec.normal);
-
-	return true;
-}
-
-bool translate::bounding_box(double time0, double time1, aabb& output_box) const {
-	if (!ptr->bounding_box(time0, time1, output_box))
-		return false;
-
-	output_box = aabb(
-		output_box.min() + offset,
-		output_box.max() + offset);
-
-	return true;
-}
 
 class rotate_y : public hittable {
 public:
@@ -119,21 +98,21 @@ public:
 	aabb bbox;
 };
 
-rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p) {
+inline rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p) {
 	auto radians = degrees_to_radians(angle);
 	sin_theta = sin(radians);
 	cos_theta = cos(radians);
 	hasbox = ptr->bounding_box(0, 1, bbox);
 
-	point3 min(infinity, infinity, infinity);
-	point3 max(-infinity, -infinity, -infinity);
+	point3 mini(infinity, infinity, infinity);
+	point3 maxi(-infinity, -infinity, -infinity);
 
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 2; j++) {
 			for (int k = 0; k < 2; k++) {
-				auto x = i * bbox.max().x() + (1 - i) * bbox.min().x();
-				auto y = j * bbox.max().y() + (1 - j) * bbox.min().y();
-				auto z = k * bbox.max().z() + (1 - k) * bbox.min().z();
+				auto x = i * bbox.maxi().x() + (1 - i) * bbox.mini().x();
+				auto y = j * bbox.maxi().y() + (1 - j) * bbox.mini().y();
+				auto z = k * bbox.maxi().z() + (1 - k) * bbox.mini().z();
 
 				auto newx = cos_theta * x + sin_theta * z;
 				auto newz = -sin_theta * x + cos_theta * z;
@@ -141,17 +120,17 @@ rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p) {
 				vec3 tester(newx, y, newz);
 
 				for (int c = 0; c < 3; c++) {
-					min[c] = fmin(min[c], tester[c]);
-					max[c] = fmax(max[c], tester[c]);
+					mini[c] = fmin(mini[c], tester[c]);
+					maxi[c] = fmax(maxi[c], tester[c]);
 				}
 			}
 		}
 	}
 
-	bbox = aabb(min, max);
+	bbox = aabb(mini, maxi);
 }
 
-bool rotate_y::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
+inline bool rotate_y::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
 	auto origin = r.origin();
 	auto direction = r.direction();
 

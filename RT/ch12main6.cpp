@@ -8,6 +8,9 @@
 #include "material.h"
 #include "sphere.h"
 
+#include "ray_tracer.h"
+#include "world.h"
+
 #include <omp.h>
 
 using namespace std;
@@ -15,74 +18,9 @@ using namespace std;
 using std::vector;
 
 #include <iostream>
-color ray_color(
-	const ray& r,
-	const color& background,
-	const hittable& world,
-	shared_ptr<hittable> pdf_area,
-	int depth
-) {
-	hit_record rec;
-
-	// If we've exceeded the ray bounce limit, no more light is gathered
-	if (depth <= 0)
-		return color(0, 0, 0);
-
-	// If the ray hits nothing, return the background color
-	if (!world.hit(r, 0.001, infinity, rec))
-		return background;
-
-	scatter_record srec;
-	color emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
-	if (!rec.mat_ptr->scatter(r, rec, srec))
-		return emitted;
-
-	if (srec.is_specular) {
-		return srec.attenuation
-			* ray_color(srec.scatter_ray, background, world, pdf_area, depth - 1);
-	}
-
-	auto pdf_area_ptr = make_shared<hittable_pdf>(pdf_area, rec.p);
-	mixture_pdf p(pdf_area_ptr, srec.pdf_ptr);
-
-	ray scattered = ray(rec.p, p.generate(), r.time());
-	auto pdf_val = p.value(scattered.direction());
-
-	return emitted + srec.attenuation * rec.mat_ptr->scattering_pdf(r, rec, scattered)
-		* ray_color(scattered, background, world, pdf_area, depth - 1) / pdf_val;
-}
 
 
-hittable_list cornell_box() {
-	hittable_list objects;
-
-	auto red = make_shared<lambertian>(color(.65, .05, .05));
-	auto white = make_shared<lambertian>(color(.73, .73, .73));
-	auto green = make_shared<lambertian>(color(.12, .45, .15));
-	auto light = make_shared<diffuse_light>(color(15, 15, 15));
-
-	objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
-	objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
-	objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
-	objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
-	objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-	objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
-
-	shared_ptr<material> aluminum = make_shared<metal>(color(0.8, 0.85, 0.88), 0.0);
-	shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), aluminum);
-	box1 = make_shared<rotate_y>(box1, 45);
-	box1 = make_shared<translate>(box1, vec3(265, 0, 295));
-	objects.add(box1);
-
-	auto glass = make_shared<dielectric>(1.5);
-	objects.add(make_shared<sphere>(point3(190, 90, 190), 90, glass));
-
-	return objects;
-
-}
-
-
-int main() {
+int aid() {
 
 	// Parallel Setting
 
