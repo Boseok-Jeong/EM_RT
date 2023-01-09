@@ -24,7 +24,13 @@ using namespace Gdiplus;
 #include "sphere.h"
 
 #include "ray_tracer.h"
+#include "world.h"
 
 #include <omp.h>
+
+using std::vector;
+
+COLORREF color2ref(color pixel_color, int samples_per_pixel);
+void rt2pixel(CDC* out_img, int img_width, int img_height, vector<vector<color>>& in_img, int samples_per_pixel);
 
 #endif //PCH_H

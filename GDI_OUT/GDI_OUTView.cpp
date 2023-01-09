@@ -59,9 +59,67 @@ void CGDIOUTView::OnDraw(CDC* pDC)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	
+	// Parallel Setting
+
+	omp_set_num_threads(omp_get_num_procs());
+	omp_set_nested(1);
+
 	const auto aspect_ratio = 1.0 / 1.0;
 	const int image_width = 600;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
+//	const int samples_per_pixel = 1000;
+//	const int max_depth = 50;
+//
+//
+//	// World
+//	auto pdf_area = make_shared<hittable_list>();
+//	pdf_area->add(make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>()));
+//	pdf_area->add(make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>()));
+//	//shared_ptr<hittable> pdf_area =
+//		//make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>());
+//		//make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>());
+//
+//	auto world = cornell_box();
+//
+//	color background(0, 0, 0);
+//
+//	// Camera
+//	point3 lookfrom(278, 278, -800);
+//	point3 lookat(278, 278, 0);
+//	vec3 vup(0, 1, 0);
+//	auto dist_to_focus = 10.;
+//	auto aperture = 0.0;
+//	auto vfov = 40.0;
+//	auto time0 = 0.0;
+//	auto time1 = 1.0;
+//
+//	camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, time0, time1);
+//
+//	// Render
+//
+//	vector<vector<vector<color>>>str_color(image_height, vector<vector<color>>(image_width, vector<color>(samples_per_pixel, color(0, 0, 0))));
+//
+//	vector<vector<color>> pixel_img(image_height, vector<color>(image_width, color(0, 0, 0)));
+//
+//	int j(0), i(0), s(0);// , cnt(0);
+//
+//#pragma omp parallel for private(i, s)//collapse(3)
+//	for (j = image_height - 1; j >= 0; --j) {
+//		for (i = 0; i < image_width; ++i)
+//		{
+//			for (s = 0; s < samples_per_pixel; ++s) {
+//				auto u = (i + random_double()) / (image_width - 1);
+//				auto v = (j + random_double()) / (image_height - 1);
+//				ray r = cam.get_ray(u, v);
+//
+//				str_color[j][i][s] = ray_color(r, background, world, pdf_area, max_depth);
+//				pixel_img[j][i] += str_color[j][i][s];
+//			}
+//		}
+//
+//	}
+
 
 	// 화면 DC와 호환성 있는 메모리 DC를 만듦
 	CDC BufferDC;
@@ -79,6 +137,8 @@ void CGDIOUTView::OnDraw(CDC* pDC)
 	BufferDC.Rectangle(10, 10, 100, 100);
 	BufferDC.Ellipse(70, 70, 180, 180);
 	BufferDC.SetPixel(100, 100, 0x010f0f);
+
+	//rt2pixel(&BufferDC, image_width, image_height, pixel_img, samples_per_pixel);
 
 	// 메모리 비트맵에 그려진 내용을 화면으로 전송
 	pDC->BitBlt(0, 0, image_width, image_height, &BufferDC, 0, 0, SRCCOPY);

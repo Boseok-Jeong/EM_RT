@@ -95,6 +95,7 @@ int aid() {
 	}
 	vector<vector<color>> pixel_img(image_height, vector<color>(image_width, color(0, 0, 0)));
 
+	//#pragma omp parallel for
 	for (j = image_height - 1; j >= 0; --j) {
 		//Progress Indicator
 		cerr << "\rScanlines remaining: " << j << ' ' << flush;
