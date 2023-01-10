@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="RT">
+      <UniqueIdentifier>{da0f0a87-023b-49a6-87d3-5f3fa62cc7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RT\헤더 파일">
+      <UniqueIdentifier>{668e5c0b-84fe-43ea-b255-35154ea790fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RT\소스 파일">
+      <UniqueIdentifier>{fd829f14-9315-442b-b8a4-62805dc3140d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GDI_OUT.h">
@@ -36,8 +45,74 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="RT\aabb.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\aarect.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\box.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\bvh.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\camera.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\color.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\constant_medium.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\hittable.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\hittable_list.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\material.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\moving_sphere.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\onb.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\pdf.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\perlin.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\ray.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\ray_tracer.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\rt_configs.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\rtw_stb_image.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\rt_core.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\rtweekend.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\world.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\vec3.h">
+      <Filter>RT\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RT\texture.h">
+      <Filter>RT\헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,8 +128,50 @@
     <ClCompile Include="GDI_OUTView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="RT\aabb.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\aarect.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\box.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\bvh.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\color.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\hittable.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\hittable_list.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\moving_sphere.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\onb.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\pdf.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\ray_tracer.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\rt_core.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\sphere.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\world.cpp">
+      <Filter>RT\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RT\texture.cpp">
+      <Filter>RT\소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

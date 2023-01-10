@@ -2,7 +2,7 @@
 // GDI_OUTView.cpp: CGDIOUTView 클래스의 구현
 //
 
-#include "pch.h"
+//#include "pch.h"
 #include "framework.h"
 // SHARED_HANDLERS는 미리 보기, 축소판 그림 및 검색 필터 처리기를 구현하는 ATL 프로젝트에서 정의할 수 있으며
 // 해당 프로젝트와 문서 코드를 공유하도록 해 줍니다.
@@ -12,6 +12,8 @@
 
 #include "GDI_OUTDoc.h"
 #include "GDI_OUTView.h"
+
+#include "RT/rt_core.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,97 +62,43 @@ void CGDIOUTView::OnDraw(CDC* pDC)
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	
-	// Parallel Setting
+	//// 화면 DC와 호환성 있는 메모리 DC를 만듦
+	//CDC BufferDC;
+	//BufferDC.CreateCompatibleDC(pDC);
+	//
+	//// 화면 DC와 호환성 있는 메모리 비트맵을 만듦
+	//CBitmap bmpBuffer;
+	//bmpBuffer.LoadBitmapW(IDB_RT_IMG);
+	//
+	//CBitmap* pOldBitmap = (CBitmap*)BufferDC.SelectObject(&bmpBuffer);
+	//
+	//bmpBuffer.CreateCompatibleBitmap(pDC, 200, 200);
+	// // 메모리 DC에 메모리 비트맵을 선택
+	//CBitmap* pOldBitmap = (CBitmap*)BufferDC.SelectObject(&bmpBuffer);
+	//
+	// // 메모리 DC에 그림을 그림
+	//BufferDC.Rectangle(0, 0, 200, 200);
+	//BufferDC.Rectangle(10, 10, 100, 100);
+	//BufferDC.Ellipse(70, 70, 180, 180);
+	//BufferDC.SetPixel(100, 100, 0x010f0f);
+	//
+	//
+	//// 메모리 비트맵에 그려진 내용을 화면으로 전송
+	//pDC->BitBlt(0, 0, 200, 200, &BufferDC, 0, 0, SRCCOPY);
+	//
+	//// DC 복원
+	//BufferDC.SelectObject(pOldBitmap);
 
-	omp_set_num_threads(omp_get_num_procs());
-	omp_set_nested(1);
+	wstring f_name = L"out_file.jpg";
 
-	const auto aspect_ratio = 1.0 / 1.0;
-	const int image_width = 600;
-	const int image_height = static_cast<int>(image_width / aspect_ratio);
-//	const int samples_per_pixel = 1000;
-//	const int max_depth = 50;
-//
-//
-//	// World
-//	auto pdf_area = make_shared<hittable_list>();
-//	pdf_area->add(make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>()));
-//	pdf_area->add(make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>()));
-//	//shared_ptr<hittable> pdf_area =
-//		//make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>());
-//		//make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>());
-//
-//	auto world = cornell_box();
-//
-//	color background(0, 0, 0);
-//
-//	// Camera
-//	point3 lookfrom(278, 278, -800);
-//	point3 lookat(278, 278, 0);
-//	vec3 vup(0, 1, 0);
-//	auto dist_to_focus = 10.;
-//	auto aperture = 0.0;
-//	auto vfov = 40.0;
-//	auto time0 = 0.0;
-//	auto time1 = 1.0;
-//
-//	camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, time0, time1);
-//
-//	// Render
-//
-//	vector<vector<vector<color>>>str_color(image_height, vector<vector<color>>(image_width, vector<color>(samples_per_pixel, color(0, 0, 0))));
-//
-//	vector<vector<color>> pixel_img(image_height, vector<color>(image_width, color(0, 0, 0)));
-//
-//	int j(0), i(0), s(0);// , cnt(0);
-//
-//#pragma omp parallel for private(i, s)//collapse(3)
-//	for (j = image_height - 1; j >= 0; --j) {
-//		for (i = 0; i < image_width; ++i)
-//		{
-//			for (s = 0; s < samples_per_pixel; ++s) {
-//				auto u = (i + random_double()) / (image_width - 1);
-//				auto v = (j + random_double()) / (image_height - 1);
-//				ray r = cam.get_ray(u, v);
-//
-//				str_color[j][i][s] = ray_color(r, background, world, pdf_area, max_depth);
-//				pixel_img[j][i] += str_color[j][i][s];
-//			}
-//		}
-//
-//	}
+	rt_core(f_name);
 
+	Graphics graphics(pDC->m_hDC);
+	Image image(f_name.c_str());
+	int width = image.GetWidth();
+	int height = image.GetHeight();
 
-	// 화면 DC와 호환성 있는 메모리 DC를 만듦
-	CDC BufferDC;
-	BufferDC.CreateCompatibleDC(pDC);
-
-	// 화면 DC와 호환성 있는 메모리 비트맵을 만듦
-	CBitmap bmpBuffer;
-	bmpBuffer.CreateCompatibleBitmap(pDC, image_width, image_height);
-
-	// 메모리 DC에 메모리 비트맵을 선택
-	CBitmap* pOldBitmap = (CBitmap*)BufferDC.SelectObject(&bmpBuffer);
-
-	// 메모리 DC에 그림을 그림
-	BufferDC.Rectangle(0, 0, 200, 200);
-	BufferDC.Rectangle(10, 10, 100, 100);
-	BufferDC.Ellipse(70, 70, 180, 180);
-	BufferDC.SetPixel(100, 100, 0x010f0f);
-
-	//rt2pixel(&BufferDC, image_width, image_height, pixel_img, samples_per_pixel);
-
-	// 메모리 비트맵에 그려진 내용을 화면으로 전송
-	pDC->BitBlt(0, 0, image_width, image_height, &BufferDC, 0, 0, SRCCOPY);
-
-	// DC 복원
-	BufferDC.SelectObject(pOldBitmap);
-
-	//Graphics graphics(pDC->m_hDC);
-	//Pen pen(Color(255, 0, 0, 0), 3);
-
-	//graphics.DrawLine(&pen, 50, 50, 500, 50);
-	//graphics.DrawRectangle(&pen, 50, 100, 200, 100);
+	graphics.DrawImage(&image, 10, 10, width, height);
 }
 
 

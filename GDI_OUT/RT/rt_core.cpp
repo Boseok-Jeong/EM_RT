@@ -13,6 +13,8 @@
 
 #include <omp.h>
 
+#include "rt_core.h"
+
 using namespace std;
 
 using std::vector;
@@ -20,7 +22,19 @@ using std::vector;
 #include <iostream>
 
 
-int aid() {
+#define STBIW_WINDOWS_UTF8
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../../external/stb_image_write.h"
+
+//#include "../external/stb_image.h"
+
+
+int rt_core(const wstring fname) {
+
+	char* fname_in = new char[fname.size()];
+
+	stbiw_convert_wchar_to_utf8(fname_in, fname.size(), fname.c_str());
 
 	// Parallel Setting
 
@@ -29,9 +43,9 @@ int aid() {
 
 	// Image
 	const auto aspect_ratio = 1.0 / 1.0;
-	const int image_width = 600;
+	const int image_width = 200;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
-	const int samples_per_pixel = 1000;
+	const int samples_per_pixel = 100;
 	const int max_depth = 50;
 
 	// World
@@ -58,25 +72,23 @@ int aid() {
 
 	camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, time0, time1);
 
+	// Image data
+	const int bytes_per_pixel = 3;
+	uint8_t* data = new uint8_t[bytes_per_pixel * image_width * image_height];
+
 	// Render
 
-	cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	//cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-	vector<vector<vector<color>>>str_color(image_height,vector<vector<color>>(image_width, vector<color>(samples_per_pixel,color(0,0,0))));
+	vector<vector<vector<color>>>str_color(image_height, vector<vector<color>>(image_width, vector<color>(samples_per_pixel, color(0, 0, 0))));
 
-	cerr << "\rLoop Start " << flush;
+	//cerr << "\rLoop Start " << flush;
 
 	int j(0), i(0), s(0);// , cnt(0);
 
 	#pragma omp parallel for private(i, s)//collapse(3)
 	for (j = image_height - 1; j >= 0; --j) {
-		
-		//#pragma omp atomic
-		//cnt++;
-
-		//Progress Indicator
-		//std::cerr << "\rScanlines remaining: " << cnt << ' ' << std::flush;
-		
+				
 		for (i = 0; i < image_width; ++i)
 		{
 			//color pixel_color(0, 0, 0);
@@ -93,25 +105,42 @@ int aid() {
 		}
 
 	}
+
+	//std::cerr << "\nRT Done.\n";
+
 	vector<vector<color>> pixel_img(image_height, vector<color>(image_width, color(0, 0, 0)));
+
+
+	int j2 = image_height - 1;
 
 	//#pragma omp parallel for
 	for (j = image_height - 1; j >= 0; --j) {
-		//Progress Indicator
-		cerr << "\rScanlines remaining: " << j << ' ' << flush;
-
+		
 		for (i = 0; i < image_width; ++i)
 		{
 			//color pixel_color(0, 0, 0);
 
 			for (s = 0; s < samples_per_pixel; ++s)
-				pixel_img[j][i] += str_color[j][i][s];
-			
-			write_color(cout, pixel_img[j][i], samples_per_pixel);
+				pixel_img[j2 - j][i] += str_color[j][i][s];
+			//write_color(cout, pixel_img[j][i], samples_per_pixel);
 		}
-
 	}
-	
+
+
+
+	for (j = 0; j < image_height; j++)
+		for (i = 0; i < image_width; i++)
+			write_color(data, j * image_width + i, pixel_img[j][i], samples_per_pixel);
+
+
+	stbi_write_jpg(fname_in, image_width, image_height, bytes_per_pixel, data, 95);
+
+	delete[] data;
+
+	delete[] fname_in;
+
 	// Progress Indicator
-	std::cerr << "\nDone.\n";
+	//std::cerr << "\nDone.\n";
+
+	return 0;
 }

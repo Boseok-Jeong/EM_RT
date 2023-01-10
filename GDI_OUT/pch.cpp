@@ -4,7 +4,7 @@
 
 // 미리 컴파일된 헤더를 사용하는 경우 컴파일이 성공하려면 이 소스 파일이 필요합니다.
 
-COLORREF color2ref(color pixel_color, int samples_per_pixel)
+COLORREF color2ref(const color& pixel_color, int samples_per_pixel)
 {
 	double r = pixel_color.x();
 	double g = pixel_color.y();
@@ -33,7 +33,7 @@ COLORREF color2ref(color pixel_color, int samples_per_pixel)
 	return ans;
 }
 
-void rt2pixel(CDC* out_img, int img_width, int img_height, vector<vector<color>>& in_img, int samples_per_pixel)
+void rt2pixel(CDC* out_img, int img_width, int img_height, const vector<vector<color>>& in_img, int samples_per_pixel)
 {
 	for (int i = 0; i < img_width; i++)
 	{

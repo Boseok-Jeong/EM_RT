@@ -64,25 +64,21 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\property\prop4base.props" />
-    <Import Project="..\property\prop4rt.props" />
     <Import Project="..\property\prop4gdip.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\property\prop4base.props" />
-    <Import Project="..\property\prop4rt.props" />
     <Import Project="..\property\prop4gdip.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\property\prop4base.props" />
-    <Import Project="..\property\prop4rt.props" />
     <Import Project="..\property\prop4gdip.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\property\prop4base.props" />
-    <Import Project="..\property\prop4rt.props" />
     <Import Project="..\property\prop4gdip.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -100,9 +96,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -200,21 +193,54 @@
     <ClInclude Include="GDI_OUTDoc.h" />
     <ClInclude Include="GDI_OUTView.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RT\aabb.h" />
+    <ClInclude Include="RT\aarect.h" />
+    <ClInclude Include="RT\box.h" />
+    <ClInclude Include="RT\bvh.h" />
+    <ClInclude Include="RT\camera.h" />
+    <ClInclude Include="RT\color.h" />
+    <ClInclude Include="RT\constant_medium.h" />
+    <ClInclude Include="RT\hittable.h" />
+    <ClInclude Include="RT\hittable_list.h" />
+    <ClInclude Include="RT\material.h" />
+    <ClInclude Include="RT\moving_sphere.h" />
+    <ClInclude Include="RT\onb.h" />
+    <ClInclude Include="RT\pdf.h" />
+    <ClInclude Include="RT\perlin.h" />
+    <ClInclude Include="RT\ray.h" />
+    <ClInclude Include="RT\ray_tracer.h" />
+    <ClInclude Include="RT\rtweekend.h" />
+    <ClInclude Include="RT\rtw_stb_image.h" />
+    <ClInclude Include="RT\rt_configs.h" />
+    <ClInclude Include="RT\rt_core.h" />
+    <ClInclude Include="RT\texture.h" />
+    <ClInclude Include="RT\vec3.h" />
+    <ClInclude Include="RT\world.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GDI_OUT.cpp" />
     <ClCompile Include="GDI_OUTDoc.cpp" />
     <ClCompile Include="GDI_OUTView.cpp" />
-    <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="MainFrm.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RT\aabb.cpp" />
+    <ClCompile Include="RT\aarect.cpp" />
+    <ClCompile Include="RT\box.cpp" />
+    <ClCompile Include="RT\bvh.cpp" />
+    <ClCompile Include="RT\color.cpp" />
+    <ClCompile Include="RT\hittable.cpp" />
+    <ClCompile Include="RT\hittable_list.cpp" />
+    <ClCompile Include="RT\moving_sphere.cpp" />
+    <ClCompile Include="RT\onb.cpp" />
+    <ClCompile Include="RT\pdf.cpp" />
+    <ClCompile Include="RT\ray_tracer.cpp" />
+    <ClCompile Include="RT\rt_core.cpp" />
+    <ClCompile Include="RT\sphere.cpp" />
+    <ClCompile Include="RT\texture.cpp" />
+    <ClCompile Include="RT\world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GDIOUT.rc" />
@@ -226,11 +252,6 @@
     <Image Include="res\GDI_OUT.ico" />
     <Image Include="res\GDI_OUTDoc.ico" />
     <Image Include="res\Toolbar.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RT\RT.vcxproj">
-      <Project>{1e037272-d281-4a12-9ed8-3872858ebf65}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

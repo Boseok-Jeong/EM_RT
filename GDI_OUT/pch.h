@@ -10,8 +10,6 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
-#include <gdiplus.h>
-using namespace Gdiplus;
 
 #include "rtweekend.h"
 
@@ -30,7 +28,7 @@ using namespace Gdiplus;
 
 using std::vector;
 
-COLORREF color2ref(color pixel_color, int samples_per_pixel);
-void rt2pixel(CDC* out_img, int img_width, int img_height, vector<vector<color>>& in_img, int samples_per_pixel);
+COLORREF color2ref(const color& pixel_color, int samples_per_pixel);
+void rt2pixel(CDC* out_img, int img_width, int img_height, const vector<vector<color>>& in_img, int samples_per_pixel);
 
 #endif //PCH_H

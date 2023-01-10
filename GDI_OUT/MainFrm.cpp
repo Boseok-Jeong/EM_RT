@@ -2,7 +2,7 @@
 // MainFrm.cpp: CMainFrame 클래스의 구현
 //
 
-#include "pch.h"
+//#include "pch.h"
 #include "framework.h"
 #include "GDI_OUT.h"
 

@@ -6,7 +6,7 @@
 #include <iostream>
 
 void write_color(std::ostream& out, color pixel_color, int samples_per_pixel);
-
+void write_color(uint8_t* data, int offset, color pixel_color, int samples_per_pixel);
 
 
 
