@@ -32,7 +32,7 @@
 #include <gdiplus.h>
 using namespace Gdiplus;
 
-
+#include <string>
 
 
 

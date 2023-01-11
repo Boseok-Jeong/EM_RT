@@ -13,7 +13,6 @@
 #include "GDI_OUTDoc.h"
 #include "GDI_OUTView.h"
 
-#include "RT/rt_core.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,39 +61,8 @@ void CGDIOUTView::OnDraw(CDC* pDC)
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	
-	//// 화면 DC와 호환성 있는 메모리 DC를 만듦
-	//CDC BufferDC;
-	//BufferDC.CreateCompatibleDC(pDC);
-	//
-	//// 화면 DC와 호환성 있는 메모리 비트맵을 만듦
-	//CBitmap bmpBuffer;
-	//bmpBuffer.LoadBitmapW(IDB_RT_IMG);
-	//
-	//CBitmap* pOldBitmap = (CBitmap*)BufferDC.SelectObject(&bmpBuffer);
-	//
-	//bmpBuffer.CreateCompatibleBitmap(pDC, 200, 200);
-	// // 메모리 DC에 메모리 비트맵을 선택
-	//CBitmap* pOldBitmap = (CBitmap*)BufferDC.SelectObject(&bmpBuffer);
-	//
-	// // 메모리 DC에 그림을 그림
-	//BufferDC.Rectangle(0, 0, 200, 200);
-	//BufferDC.Rectangle(10, 10, 100, 100);
-	//BufferDC.Ellipse(70, 70, 180, 180);
-	//BufferDC.SetPixel(100, 100, 0x010f0f);
-	//
-	//
-	//// 메모리 비트맵에 그려진 내용을 화면으로 전송
-	//pDC->BitBlt(0, 0, 200, 200, &BufferDC, 0, 0, SRCCOPY);
-	//
-	//// DC 복원
-	//BufferDC.SelectObject(pOldBitmap);
-
-	wstring f_name = L"out_file.jpg";
-
-	rt_core(f_name);
-
 	Graphics graphics(pDC->m_hDC);
-	Image image(f_name.c_str());
+	Image image(rt_name.c_str());
 	int width = image.GetWidth();
 	int height = image.GetHeight();
 

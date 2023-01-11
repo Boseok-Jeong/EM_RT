@@ -32,9 +32,12 @@ using std::vector;
 
 int rt_core(const wstring fname) {
 
-	char* fname_in = new char[fname.size()];
+	string fname_in;
+	fname_in.assign(fname.begin(), fname.end());
 
-	stbiw_convert_wchar_to_utf8(fname_in, fname.size(), fname.c_str());
+	// char* fname_in = new char[fname.length()];
+	//stbiw_convert_wchar_to_utf8(fname_in, fname.length(), fname.c_str());
+	// delete[] fname_in;
 
 	// Parallel Setting
 
@@ -133,11 +136,9 @@ int rt_core(const wstring fname) {
 			write_color(data, j * image_width + i, pixel_img[j][i], samples_per_pixel);
 
 
-	stbi_write_jpg(fname_in, image_width, image_height, bytes_per_pixel, data, 95);
+	stbi_write_jpg(fname_in.c_str(), image_width, image_height, bytes_per_pixel, data, 95);
 
 	delete[] data;
-
-	delete[] fname_in;
 
 	// Progress Indicator
 	//std::cerr << "\nDone.\n";

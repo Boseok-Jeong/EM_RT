@@ -18,6 +18,12 @@
 #define new DEBUG_NEW
 #endif
 
+#include "RT/rt_core.h"
+
+using namespace std;
+
+wstring rt_name = L"out_file.jpg";
+
 // CGDIOUTDoc
 
 IMPLEMENT_DYNCREATE(CGDIOUTDoc, CDocument)
@@ -32,6 +38,8 @@ CGDIOUTDoc::CGDIOUTDoc() noexcept
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
 
+
+
 }
 
 CGDIOUTDoc::~CGDIOUTDoc()
@@ -45,6 +53,9 @@ BOOL CGDIOUTDoc::OnNewDocument()
 
 	// TODO: 여기에 재초기화 코드를 추가합니다.
 	// SDI 문서는 이 문서를 다시 사용합니다.
+
+
+	rt_core(rt_name);
 
 	return TRUE;
 }

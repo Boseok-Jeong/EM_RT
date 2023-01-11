@@ -47,3 +47,4 @@ inline CGDIOUTDoc* CGDIOUTView::GetDocument() const
    { return reinterpret_cast<CGDIOUTDoc*>(m_pDocument); }
 #endif
 
+extern std::wstring rt_name;
