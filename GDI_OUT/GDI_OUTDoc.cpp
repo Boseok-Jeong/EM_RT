@@ -18,7 +18,8 @@
 #define new DEBUG_NEW
 #endif
 
-#include "RT/rt_core.h"
+//#include "RT/rt_core.h"
+#include "io_wrap.h"
 
 using namespace std;
 
@@ -29,6 +30,9 @@ wstring rt_name = L"out_file.jpg";
 IMPLEMENT_DYNCREATE(CGDIOUTDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGDIOUTDoc, CDocument)
+	ON_COMMAND(20, &CGDIOUTDoc::OnExeRT)
+//	ON_COMMAND(ID_EXE_RT, &CGDIOUTDoc::OnExeRt)
+ON_COMMAND(ID_EXE_RT, &CGDIOUTDoc::OnExeRT)
 END_MESSAGE_MAP()
 
 
@@ -54,8 +58,6 @@ BOOL CGDIOUTDoc::OnNewDocument()
 	// TODO: 여기에 재초기화 코드를 추가합니다.
 	// SDI 문서는 이 문서를 다시 사용합니다.
 
-
-	rt_core(rt_name);
 
 	return TRUE;
 }
@@ -147,3 +149,19 @@ void CGDIOUTDoc::Dump(CDumpContext& dc) const
 
 
 // CGDIOUTDoc 명령
+
+
+void CGDIOUTDoc::OnExeRT()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	RT_PARAM* pRtParam = new RT_PARAM;
+	//pRtParam->fname = _wcsdup(rt_name.c_str());
+	pRtParam->fname = (wchar_t*)rt_name.c_str();
+	pRtParam->hWnd = AfxGetMainWnd()->m_hWnd;
+
+	CWinThread* pThread = ::AfxBeginThread(MFC_RT_CORE, pRtParam);
+	//rt_core(rt_name);
+
+	//UpdateAllViews(NULL);
+}

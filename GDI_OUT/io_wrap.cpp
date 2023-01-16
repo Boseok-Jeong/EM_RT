@@ -1,8 +1,19 @@
-﻿// pch.cpp: 미리 컴파일된 헤더에 해당하는 소스 파일
+#include "io_wrap.h"
 
-#include "pch.h"
+#include "RT/aarect.h"
+#include "RT/box.h"
+#include "RT/camera.h"
+#include "RT/color.h"
+#include "RT/hittable_list.h"
+#include "RT/material.h"
+#include "RT/sphere.h"
 
-// 미리 컴파일된 헤더를 사용하는 경우 컴파일이 성공하려면 이 소스 파일이 필요합니다.
+#include "RT/ray_tracer.h"
+#include "RT/world.h"
+
+#include "RT/rt_core.h"
+
+#include "GDI_OUTDoc.h"
 
 COLORREF color2ref(const color& pixel_color, int samples_per_pixel)
 {
@@ -44,4 +55,19 @@ void rt2pixel(CDC* out_img, int img_width, int img_height, const vector<vector<c
 		}
 
 	}
+}
+
+UINT MFC_RT_CORE(LPVOID pParam)
+{
+	RT_PARAM* pRtParam = (RT_PARAM*)pParam;
+	rt_core(pRtParam->fname);
+
+	//delete pRtParam->fname;
+
+	InvalidateRect(pRtParam->hWnd, NULL, TRUE);
+	UpdateWindow(pRtParam->hWnd);
+
+	delete pRtParam;
+
+	return 0;
 }

@@ -192,6 +192,7 @@
     <ClInclude Include="GDI_OUT.h" />
     <ClInclude Include="GDI_OUTDoc.h" />
     <ClInclude Include="GDI_OUTView.h" />
+    <ClInclude Include="io_wrap.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RT\aabb.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="RT\sphere.cpp" />
     <ClCompile Include="RT\texture.cpp" />
     <ClCompile Include="RT\world.cpp" />
+    <ClCompile Include="io_wrap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GDIOUT.rc" />

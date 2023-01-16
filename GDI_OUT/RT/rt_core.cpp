@@ -64,7 +64,7 @@ int rt_core(const wstring fname) {
 	color background(0, 0, 0);
 
 	// Camera
-	point3 lookfrom(278, 278, -800);
+	point3 lookfrom(273 + 10. * random_double(), 273 + 10. * random_double(), -805 + 10. * random_double());
 	point3 lookat(278, 278, 0);
 	vec3 vup(0, 1, 0);
 	auto dist_to_focus = 10.;
