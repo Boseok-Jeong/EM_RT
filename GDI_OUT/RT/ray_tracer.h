@@ -7,6 +7,6 @@ color ray_color(
 	const ray& r,
 	const color& background,
 	const hittable& world,
-	shared_ptr<hittable> pdf_area,
+	shared_ptr<hittable>& pdf_area,
 	int depth
 );

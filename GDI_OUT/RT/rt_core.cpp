@@ -52,14 +52,20 @@ int rt_core(const wstring fname) {
 	const int max_depth = 50;
 
 	// World
-	auto pdf_area = make_shared<hittable_list>();
-	pdf_area->add(make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>()));
-	pdf_area->add(make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>()));
+	//auto pdf_area = make_shared<hittable_list>();
+	//pdf_area->add(make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>()));
+	//pdf_area->add(make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>()));
 	//shared_ptr<hittable> pdf_area =
 		//make_shared<xz_rect>(213, 343, 227, 332, 554, shared_ptr<material>());
 		//make_shared<sphere>(point3(190, 90, 190), 90, shared_ptr<material>());
+	//
+	//auto world = cornell_box();
 
-	auto world = cornell_box();
+	shared_ptr<hittable_list> pdf_area = make_shared<hittable_list>();
+
+	auto world = cornell_box(pdf_area);
+
+	shared_ptr<hittable> dup_pdf_area = pdf_area;
 
 	color background(0, 0, 0);
 
@@ -102,7 +108,7 @@ int rt_core(const wstring fname) {
 				ray r = cam.get_ray(u, v);
 				
 				//pixel_color += ray_color(r, background, world, pdf_area, max_depth);
-				str_color[j][i][s] = ray_color(r, background, world, pdf_area, max_depth);
+				str_color[j][i][s] = ray_color(r, background, world, dup_pdf_area, max_depth);
 			}
 			//write_color(std::cout, pixel_color, samples_per_pixel);
 		}

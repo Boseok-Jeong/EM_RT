@@ -25,5 +25,8 @@ struct rt_config
 {
 	double aspect_ratio;
 	int max_depth;
+
+	image_config img;
+	camera_config cmr;
 	
 };
